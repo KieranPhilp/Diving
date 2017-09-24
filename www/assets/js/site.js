@@ -111,7 +111,7 @@ function initMap() {
 function getWeather(location){
     $.ajax({
         dataType: "json",
-        url: "http://api.openweathermap.org/data/2.5/forecast?lat="+location.lat+"&lon="+location.lng+"&appid=2442749520865ce9d78955794a178a5e",
+        url: "http://api.openweathermap.org/data/2.5/forecast?lat="+location.lat+"&lon="+location.lng+"&appid="+apiKey.openWeather,
         traditional: true,
         success: function(result){
             console.log(result);
