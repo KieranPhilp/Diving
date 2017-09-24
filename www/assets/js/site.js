@@ -107,3 +107,41 @@ function initMap() {
         map.fitBounds(bounds);
       });
 }
+
+function getWeather(location){
+    $.ajax({
+        dataType: "json",
+        url: "http://api.openweathermap.org/data/2.5/forecast?lat="+location.lat+"&lon="+location.lng+"&appid=2442749520865ce9d78955794a178a5e",
+        traditional: true,
+        success: function(result){
+            console.log(result);
+            $.each(result.list,function(){
+                console.log(this);
+            })
+            /*var data = result.Locations.Location;
+            console.log(data);
+            $.each(data,function(){
+                $('#combobox').append('<option value="'+this.id+'">'+this.name+'</option>');
+            })*/
+        },
+        error:function(jqXHR, textStatus,errorThrown){
+            alert(textStatus.toUpperCase() + " : " + this.url);
+        }
+    })
+    $.ajax({
+        dataType: "json",
+        url: "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/all?res=3hourly&key=7b4266aa-1e1c-451e-b764-0021561a2662",
+        traditional: true,
+        success: function(result){
+            var data = result.SiteRep.DV.Location;
+           // console.log(data);
+            $.each(data,function(){
+                //if(this.i="3840")
+                  //  console.log(this);
+            })
+        },
+        error:function(jqXHR, textStatus,errorThrown){
+            alert(textStatus.toUpperCase() + " : " + this.url);
+        }
+    })
+}
