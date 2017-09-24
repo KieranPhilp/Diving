@@ -23,6 +23,8 @@ $(function () {
     if(isMobile.any())
         window.localStorage("/mobile.html");
 
+        //getWeather({"lat":"53","lng":"-2"});
+        getTideData({"lat":"53","lng":"-2"});
         // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
       // pick list containing a mix of places and predicted search terms.
@@ -107,8 +109,27 @@ function initMap() {
         map.fitBounds(bounds);
       });
 }
+function getTideData(location){
+    $.getJSON("https://www.worldtides.info/api?heights&extremes&lat=53&lon=-2&length=1209600&key=f7b4b411-4b5d-49a8-9693-c6c741ada3b6", function(e){
+        console.log(e);
+    })
+    $.ajax({
+        dataType: "json",
+        url: "https://www.worldtides.info/api?heights&extremes&lat=53&lon=-2&length=1209600&key=f7b4b411-4b5d-49a8-9693-c6c741ada3b6",
+        success: function(result){
+            console.log(result);
+        },
+        error: function(jqXHR,textStatus,errorThrown){
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
 
+        }
+    })
+}
 function getWeather(location){
+    console.log(location);
+    console.log("http://api.openweathermap.org/data/2.5/forecast?lat="+location.lat+"&lon="+location.lng+"&appid="+apiKey.openWeather)
     $.ajax({
         dataType: "json",
         url: "http://api.openweathermap.org/data/2.5/forecast?lat="+location.lat+"&lon="+location.lng+"&appid="+apiKey.openWeather,
