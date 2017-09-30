@@ -1,5 +1,6 @@
 var markers = [];
 var map;
+var recentLocations = [];
 
 $(function () {
 
@@ -11,21 +12,90 @@ $(function () {
 });
 
 function getTideData(location) {
-    $.getJSON("https://www.worldtides.info/api?heights&extremes&lat=53&lon=-2&length=1209600&key=f7b4b411-4b5d-49a8-9693-c6c741ada3b6", function (e) {
-        console.log(e);
-    })
     $.ajax({
         dataType: "json",
-        url: "https://www.worldtides.info/api?heights&extremes&lat=53&lon=-2&length=1209600&key=f7b4b411-4b5d-49a8-9693-c6c741ada3b6",
+        url: "https://www.worldtides.info/api?heights&extremes&lat="+location.lat+"&lon="+location.lng+"&length=1209600&key=f7b4b411-4b5d-49a8-9693-c6c741ada3b6",
         success: function (result) {
             console.log(result);
+            var ctx = $('#tideData');
+            var previousGetDate = "";
+            var str = "<ul id='tideUL'>";
+            $('#tideGraph').html();
+            $.each(result.heights,function(){
+                //this.date => "2017-10-14T00:30+0000"
+                //this.dt => 1507941000
+                //this.height => -2.328
+                var date = new Date(this.date);
+                var dateString = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " - " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                console.log(dateString);
+                if(date.getDate() != previousGetDate)
+                {
+                    str += "<li><a>"+date.toString().split(' ')[0]+" "+date.getDate()+"-"+date.toLocaleString("en-us",{"month":"short"})+"</a></li>";
+                }
+                
+                previousGetDate = date.getDate();
+                
+               /* <br>
+                <canvas id="tideData" width="400" height="400"></canvas>*/
+            })
+            str += "</ul>";
+            $('#tideGraph').append(str);
+            var table = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
+            alert(textStatus.toUpperCase() + " : " + this.url);
         }
     })
+}
+function addToRecentLocations(name,location)
+{
+    $('#recentLocations').append("<dd>\
+                                    <a href='#' onClick='getTideData({lat:"+location.lat()+",lng:"+location.lng()+"})'>"+name+"</a>\
+                                    <span>\
+                                        <i>Remove</i>\
+                                    </span>\
+                                </dd>");
+    //<dd>
+    //  <a href="/public/weather/tide-times/gcuw1jbeg">Lunderston Bay (Beach)</a>
+    //  <span data-geohash="gcuw1jbeg">
+    //      <i class="icon" data-type="utility" data-value="cross" data-color="blue">Remove</i>
+    //  </span>
+    //</dd>
 }
 
 function initMap() {
@@ -52,7 +122,12 @@ function initMap() {
         }
 
         deleteMarkers();
-        console.log(places);
+
+        getTideData({
+            lat:places[0].geometry.location.lat(),
+            lng:places[0].geometry.location.lng()
+        })
+        addToRecentLocations(places[0].name, places[0].geometry.location);
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function (place) {
@@ -93,7 +168,7 @@ function addMarker(location){
 
 }
 function placeMarker(e){
-    console.log(e.latLng.lat());
+    //console.log(e.latLng.lat());
 }
 
 function deleteMarkers(){

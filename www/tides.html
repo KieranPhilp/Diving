@@ -47,6 +47,7 @@
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
   <script src="assets/js/site.js"></script>
   <script src="assets/js/tide.js"></script>
   <!-- Custom combobox JS-->
@@ -234,14 +235,12 @@
     <header>
         <input id="pac-input" class="controls" type="text" placeholder="Enter Location"name="searchLocation">
       <h1>UK Tide Times</h1>
+      <dl id="recentLocations">
+          <dt>Recent Locations</dt>
+      </dl>
     </header>
     <div id="map"></div>
-    <div style="height:500px">
-      <br>
-      <p>
-        This is gonna be a table with the data about the given location
-      </p>
-    </div>
+    <section id="tideGraph" style="min-height:500px"></section>
 
   </div>
   <div id="footer">
