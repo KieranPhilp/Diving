@@ -2,54 +2,55 @@
 <html lang="en">
 
 <head>
-    <title>Diving</title>
+  <title>Diving</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="This is going to use googleapis to get the maps and weather for diving">
-    <meta name="author" content="Kieran Philp">
-    <link rel="icon" href="assets/images/myfavicon.ico">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="This is going to use googleapis to get the maps and weather for diving">
+  <meta name="author" content="Kieran Philp">
+  <link rel="icon" href="assets/images/myfavicon.ico">
 
-    <!--Stylesheets-->
-    <!--Testing git another change-->
-    <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="assets/css/site.css">
-    <!--Custom combobox CSS-->
-    <style>
-        .custom-combobox {
-            position: relative;
-            display: inline-block;
-            text-align: center;
-        }
+  <!--Stylesheets-->
+  <!--Testing git another change-->
+  <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <!--Custom combobox CSS-->
+  <style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        text-align: center;
+    }
 
-        .custom-combobox-toggle {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            margin-left: -1px;
-            padding: 0;
-        }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+    }
 
-        .custom-combobox-input {
-            margin: 0;
-            padding: 5px 10px;
-        }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 5px 10px;
+    }
 
-        #container {
-            margin-left: 5%;
-            margin-right: 5%;
-        }
-    </style>
+    #container{
+        margin-left:5%;
+        margin-right: 5%;
+    }
+  </style>
 
-    <!--Javascript-->
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/site.js"></script>
-    <!-- Custom combobox JS-->
-    <script>
+  <!--Javascript-->
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/tide.js"></script>
+  <!-- Custom combobox JS-->
+  <script>
         $(function () {
             $.widget("custom.combobox", {
                 _create: function () {
@@ -69,9 +70,7 @@
                         .appendTo(this.wrapper)
                         .val(value)
                         .attr("title", "")
-                        .addClass(
-                            "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left"
-                        )
+                        .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
                         .autocomplete({
                             delay: 0,
                             minLength: 0,
@@ -192,64 +191,68 @@
 </head>
 
 <body>
-    <div id="headerContainer">
-        <div id="header">
-            <div id="toplevel">
-                <div id="headerContent">
-                    <div id="toplogo">
-                        <a href="/" title="Home" class="logo" accesskey="1"><img src="/assets/images/logo.png" alt="Kieran Philp"></a>
-                    </div>
-                    <div id="toputilnav">
-                        <ul>
-                            <li class="settings"><a href="#settings">Settings</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div id="topNav">
+  <div id="headerContainer">
+    <div id="header">
+      <div id="toplevel">
+        <div id="headerContent">
+          <div id="toplogo">
+            <a href="/" title="Home" class="logo" accesskey="1"><img src="/assets/images/logo.png" alt="Kieran Philp"></a>
+          </div>
+          <div id="toputilnav">
             <ul>
-                <li><a href="weather.html" title="Weather">Weather</a></li>
-                <li><a href="tides.html" title="Climate guide">Tides</a></li>
+              <li class="settings"><a href="#settings">Settings</a></li>
             </ul>
+          </div>
         </div>
-        <!--<div id="secondNav">
-            <ul>
-                <li><a href="weather/forecast" title="UK forecast">UK forecast</a></li>
-                <li><a href="weather/warnings" title="Weather warnings">Weather warnings</a></li>
-            </ul>
-        </div>-->
-        <div id="bcbar">
-            <div id="bcbarcontent">
-                <div id="breadcrumb"></div>
-            </div>
-        </div>
+      </div>
 
     </div>
-    <div id="contentContainer">
-        <section id="container">
-            <article id="content">
-                <header>
-                    <h1>Homepage!</h1>
-                </header>
-
-                <div style="float:left; width:45%; height:500px; margin:10px; border:2px solid black;">
-                    <a href="weather.html">Weather</a>
-                </div>
-                <div style="float:right; width:45%; height:500px; margin:10px; border:2px solid black;">
-                    <a href="tides.html">Tide</a>
-                </div>
-
-            </article>
-        </section>
+    <div id="topNav">
+      <ul>
+        <li><a href="weather.html" title="Weather">Weather</a></li>
+        <li><a href="tides.html" title="Climate guide">Tides</a></li>
+      </ul>
     </div>
-    <div id="footer">
-        <div id="settings">
-            <h2>Settings</h2>
-            <p>Here you are able to personalise the website to work specifically for your needs.</p>
-        </div>
+    <!--<div id="secondNav">
+      <ul>
+        <li><a href="/public/weather/forecast" title="UK forecast">UK forecast</a></li>
+        <li><a href="/public/weather/warnings" title="Weather warnings">Weather warnings</a></li>
+      </ul>
+    </div>-->
+    <div id="bcbar">
+      <div id="bcbarcontent">
+        <div id="breadcrumb"></div>
+      </div>
     </div>
+
+  </div>
+  <div id="contentContainer">
+    <section id="container">
+      <article id="content">
+      </article>
+    </section>
+    <header>
+        <input id="pac-input" class="controls" type="text" placeholder="Enter Location"name="searchLocation">
+      <h1>UK Tide Times</h1>
+    </header>
+    <div id="map"></div>
+    <div style="height:500px">
+      <br>
+      <p>
+        This is gonna be a table with the data about the given location
+      </p>
+    </div>
+
+  </div>
+  <div id="footer">
+    <div id="settings">
+      <h2>Settings</h2>
+      <p>Here you are able to personalise the Met office website to work specifically for your needs.</p>
+    </div>
+  </div>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7wNn5mMIHL6-fVPQDy217ArtBDOMZZDE&libraries=places&callback=initMap">
+  </script>
 </body>
 
 </html>
